@@ -1,5 +1,5 @@
 # build
-FROM node:16.16.0
+FROM node:18-alpine
 
 WORKDIR /daniela/shipping-app-frontend/src/app
 
