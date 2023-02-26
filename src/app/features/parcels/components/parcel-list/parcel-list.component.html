@@ -1,0 +1,99 @@
+<mat-card>
+    <mat-card-header>
+        <div>
+            <h1>Shipping App</h1>
+            <h3>Parcels List</h3>
+        </div>
+        
+    </mat-card-header>
+    <mat-card-content>
+      
+        <div class="filters">
+           
+                <mat-form-field>
+                    <input matInput type="text" [(ngModel)]="searchValue"
+                    (keyup)="fetchData()" placeholder="Search parcel by description">
+                </mat-form-field>
+          
+               
+                <mat-form-field>
+                        <mat-label>Filter by country</mat-label>
+                        <input type="text"
+                               placeholder="Pick one"
+                               aria-label="Number"
+                               matInput
+                               [formControl]="countryControl"
+                               [matAutocomplete]="auto">
+                        <button mat-mini-fab *ngIf="countryControl.value.name" matSuffix aria-label="Clear" (click)="clearCountry()">
+                                <mat-icon>close</mat-icon>
+                        </button>
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="getOptionName" (optionSelected)="fetchData()">
+                          <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">
+                            {{option.name}}
+                          </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+          
+            <button (click)="redirectToParcelNew()" mat-raised-button color="primary">Add Parcel</button>
+        </div>
+        
+        
+        <div *ngIf="dataSource">
+            <mat-table [dataSource]="dataSource.items">
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        
+                <ng-container matColumnDef="parcelSKU">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>SKU</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.parcelSKU}}</mat-cell>
+                </ng-container>
+        
+        
+                <ng-container matColumnDef="description">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Description</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.description}}</mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="address">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Address</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.address}}</mat-cell>
+                </ng-container>
+        
+                <ng-container matColumnDef="town">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Town</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.town}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="state">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>State</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.state}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="country">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Country</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.country}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="deliveryDate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Delivery Date</mat-header-cell>
+                    <mat-cell *matCellDef="let row">{{row.deliveryDate | date: 'd MMMM y'}}</mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="actions">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>Actions</mat-header-cell>
+                    <mat-cell mat-mini-fab *matCellDef="let row"><button mat-icon-button (click)="openDialog(row.uuid)">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
+                    </button></mat-cell>
+                </ng-container>
+            </mat-table>
+            
+            <mat-paginator
+                [length]="dataSource.meta.totalItems" 
+                [pageSize]="dataSource.meta.itemsPerPage" 
+                [pageSizeOptions]="[5,10,25,100]"
+                (page)="pageEvent = $event; onPaginateChange($event)"
+                showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </mat-card-content>
+</mat-card>

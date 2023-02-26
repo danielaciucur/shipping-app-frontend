@@ -1,0 +1,95 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title class="title">
+      <div>
+        <h1>
+          Add new Parcel
+        </h1>
+      </div>
+    </mat-card-title>
+  </mat-card-header>  
+
+    <mat-card-content>
+      <form [formGroup]="createParcelForm">   
+      
+          <mat-form-field>
+              <input matInput formControlName="parcelSKU" placeholder="Parcel SKU">
+              <mat-error *ngIf="createParcelForm.get('parcelSKU').hasError('required')">Please insert a parcel SKU</mat-error>
+          </mat-form-field>
+      
+          <mat-form-field>
+              <input matInput formControlName="description" placeholder="Enter Parcel Description">
+          </mat-form-field>
+  
+          <mat-form-field>
+              <mat-label>Select country</mat-label>
+              <input type="text"
+                     placeholder="Search for country"
+                     aria-label="Number"
+                     matInput
+                     formControlName="country"
+                     [matAutocomplete]="autoCountries">
+              <button mat-mini-fab *ngIf="createParcelForm.controls.country.value.name" matSuffix aria-label="Clear" (click)="clearCountry(); $event.stopPropagation()">
+                      <mat-icon>close</mat-icon>
+              </button>
+              <mat-autocomplete #autoCountries="matAutocomplete" [displayWith]="getOptionName">
+                <mat-option *ngFor="let option of filteredCountryList$ | async" [value]="option">
+                  {{option.name}}
+                </mat-option>
+              </mat-autocomplete>
+          </mat-form-field>
+  
+            <mat-form-field>
+              <mat-label>Select state</mat-label>
+              <input type="text"
+                     placeholder="Search for state"
+                     aria-label="Number"
+                     matInput
+                     formControlName="state"
+                     [matAutocomplete]="autoStates">
+              <button mat-mini-fab *ngIf="createParcelForm.controls.state.value" matSuffix aria-label="Clear" (click)="clearState()">
+                      <mat-icon>close</mat-icon>
+              </button>
+              <mat-autocomplete #autoStates="matAutocomplete">
+                <mat-option *ngFor="let option of filteredStateList$ | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+          </mat-form-field>
+  
+          <mat-form-field>
+              <mat-label>Select town</mat-label>
+              <input type="text"
+                     placeholder="Search for town"
+                     aria-label="Number"
+                     matInput
+                     formControlName="town"
+                     [matAutocomplete]="autoCities">
+              <button mat-mini-fab *ngIf="createParcelForm.controls.town.value" matSuffix aria-label="Clear" (click)="clearTown()">
+                      <mat-icon>close</mat-icon>
+              </button>
+              <mat-autocomplete #autoCities="matAutocomplete">
+                <mat-option *ngFor="let option of filteredCityList$ | async" [value]="option">
+                  {{option}}
+                </mat-option>
+              </mat-autocomplete>
+          </mat-form-field>
+      
+          <mat-form-field>
+              <input matInput formControlName="address" placeholder="Enter street address">
+          </mat-form-field>
+      
+          <mat-form-field>
+              <input matInput [min]="minDate" [matDatepicker]="myDatepicker" formControlName="deliveryDate">
+              <mat-datepicker-toggle matSuffix [for]="myDatepicker"></mat-datepicker-toggle>
+              <mat-datepicker #myDatepicker></mat-datepicker>
+          </mat-form-field>
+        </form>
+    </mat-card-content>
+    
+    <mat-card-actions class="pull-right">
+      <button mat-raised-button (click)="onSubmit()" [disabled]="createParcelForm.invalid" color="primary">Submit</button>
+      <button mat-raised-button (click)="onCancel()">Cancel</button>
+    </mat-card-actions>
+    
+</mat-card>

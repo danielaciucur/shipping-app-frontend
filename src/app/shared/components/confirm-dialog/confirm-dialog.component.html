@@ -1,0 +1,12 @@
+<div class="confirmation-dialog">
+  <div class="confirmation-dialog-header">
+    {{ data.title }}
+  </div>
+  <div class="confirmation-dialog-content">
+    {{ data.message }}
+  </div>
+  <div class="confirmation-dialog-actions">
+    <button class="confirmation-dialog-button confirmation-dialog-cancel" (click)="onCancel()">Cancel</button>
+    <button class="confirmation-dialog-button confirmation-dialog-confirm" (click)="onConfirm()">Confirm</button>
+  </div>
+</div>
