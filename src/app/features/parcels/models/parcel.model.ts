@@ -6,7 +6,7 @@ export class Parcel {
   town?: string;
   state?: string;
   country?: string;
-  deliveryDate?: Date;
+  deliverydate?: string;
 
   constructor(
     parcelSKU: string,
@@ -15,7 +15,7 @@ export class Parcel {
     town: string,
     state: string,
     country: string,
-    deliveryDate: Date
+    deliverydate: string
   ) {
     this.parcelSKU = parcelSKU;
     this.description = description;
@@ -23,6 +23,6 @@ export class Parcel {
     this.town = town;
     this.state = state;
     this.country = country;
-    this.deliveryDate = deliveryDate;
+    this.deliverydate = deliverydate;
   }
 }

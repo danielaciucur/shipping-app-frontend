@@ -189,11 +189,11 @@ export class ParcelNewComponent implements OnDestroy {
     return new Parcel(
       this.createParcelForm.controls.parcelSKU.value,
       this.createParcelForm.controls.description.value,
-      this.createParcelForm.controls.country.value.name,
       this.createParcelForm.controls.address.value,
-      this.createParcelForm.controls.state.value,
       this.createParcelForm.controls.town.value,
-      this.createParcelForm.controls.deliveryDate.value
+      this.createParcelForm.controls.state.value,
+      this.createParcelForm.controls.country.value.name,
+      this.createParcelForm.controls.deliveryDate.value.toISOString()
     );
   }
 
