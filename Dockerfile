@@ -1,7 +1,7 @@
 # build
-FROM node:18-alpine
+FROM node:18-alpine as development
 
-WORKDIR /daniela/shipping-app-frontend/src/app
+WORKDIR /daniela/src/app
 
 COPY package*.json ./
 
@@ -13,3 +13,5 @@ COPY . .
 RUN npm run build
 
 EXPOSE 4200
+
+CMD ["ng serve"]
