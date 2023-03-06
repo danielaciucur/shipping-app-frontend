@@ -2,26 +2,20 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { PageEvent } from '@angular/material/paginator';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import {
   BehaviorSubject,
-  catchError,
   map,
-  Observable,
   of,
-  startWith,
   Subject,
   switchMap,
   takeUntil,
-  throwError,
 } from 'rxjs';
 import { Country } from '../../models/country';
-import { ParcelData } from '../../models/parcel-data.model';
-import { Parcel } from '../../models/parcel.model';
 import { SearchFilter } from '../../models/parcel-search-filter';
 import { ParcelService } from '../../parcel.service';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog.component';
-import { ParcelNewComponent } from '../parcel-new/parcel-new.component';
+import { ParcelResponse } from '../../models/parcel-response.model';
 
 @Component({
   selector: 'app-parcel-list',
@@ -32,7 +26,7 @@ export class ParcelListComponent implements OnInit, OnDestroy {
   private readonly _destroy$ = new Subject<boolean>();
 
   searchValue: string;
-  dataSource: ParcelData = null;
+  dataSource: ParcelResponse = null;
   pageEvent: PageEvent;
   displayedColumns: string[] = [
     'parcelSKU',
@@ -44,6 +38,7 @@ export class ParcelListComponent implements OnInit, OnDestroy {
     'deliveryDate',
     'actions'
   ];
+  pageSize = 10;
   countries: Country[];
   cities: string[];
   countryControl = new FormControl();
@@ -154,7 +149,7 @@ export class ParcelListComponent implements OnInit, OnDestroy {
   ) {
     this.parcelService
       .getParcels(page, size, new SearchFilter(country, description))
-      .pipe(map((parcelData: ParcelData) => (this.dataSource = parcelData)))
+      .pipe(map((parcelData: ParcelResponse) => (this.dataSource = parcelData)))
       .subscribe();
   }
 

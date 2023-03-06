@@ -1,11 +1,11 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
-import { ParcelData } from './models/parcel-data.model';
 import { Parcel } from './models/parcel.model';
 import * as countrycitystatejson from 'countrycitystatejson';
 import { SearchFilter } from './models/parcel-search-filter';
 import { Country } from './models/country';
+import { ParcelResponse } from './models/parcel-response.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,15 +19,15 @@ export class ParcelService {
 
   constructor(private http: HttpClient) {}
 
-  public getParcels(page: number, size: number, filter?: SearchFilter): Observable<ParcelData> {
+  public getParcels(page: number, size: number, filter?: SearchFilter): Observable<ParcelResponse> {
     const params = new HttpParams()
       .set('page', String(page))
       .set('limit', String(size))
       .set('country', filter.country || '')
       .set('description', filter.description || '');
 
-    return this.http.get<ParcelData>(this.parcelApi, { params }).pipe(
-      map((parcels: ParcelData) => parcels),
+    return this.http.get<ParcelResponse>(this.parcelApi, { params }).pipe(
+      map((parcels: ParcelResponse) => parcels),
       catchError((err) => throwError(err))
     );
   }
