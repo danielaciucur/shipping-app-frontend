@@ -71,7 +71,8 @@ export class ParcelListComponent implements OnInit, OnDestroy {
 
   openDialog(uuid: string) {
     const dialogRef = this.dialog.open(ConfirmDialogComponent, {
-      data: { message: 'Are you sure you want to delete this item?' }
+      data: { message: 'Are you sure you want to delete this item?' },
+      disableClose: true
     });
 
     const sub = dialogRef.afterClosed().pipe(switchMap(
@@ -84,7 +85,7 @@ export class ParcelListComponent implements OnInit, OnDestroy {
       }
     ));
 
-    sub.subscribe(() => this.initDataSource());
+    sub.pipe(takeUntil(this._destroy$)).subscribe(() => this.initDataSource());
   }
 
   getOptionName(option: Country): string {
