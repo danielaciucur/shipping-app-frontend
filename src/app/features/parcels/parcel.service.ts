@@ -41,7 +41,7 @@ export class ParcelService {
   }
 
   getCountries(): Country[] {
-    return this.countryData.getCountries().map(function (country: any) {
+    return this.countryData.getCountries().map(function (country: Country) {
       return {
         name: country.name,
         shortName: country.shortName
